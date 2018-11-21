@@ -47,33 +47,21 @@ nginx/sample.conf
 ```
 
 ## 维护
-停止容器
+* 停止容器： `docker stop web`
 
-`docker stop web`
+* 启动容器： `docker start web`
 
-启动容器
+* 查看容器日志： `docker logs web`
 
-`docker start web`
-
-查看容器日志
-
-`docker logs web`
-
-进入 web 容器
-
-`docker exec -it web ash`
+* 进入 web 容器： `docker exec -it web ash`
 
 ## 清理
 
-* 删除容器
-
 >!!!注意以下操作会清理全部 Docker 容器数据，并且无法恢复!!!
 
-`docker rm -f web`
+* 删除容器：`docker rm -f web`
 
-* 删除 build 的镜像
-
-`docker rmi nginxphp72:alpine`
+* 删除 build 的镜像：`docker rmi nginxphp72:alpine`
 
 # 高级运行方法
 ## 从本机目录映射 nginx 配置文件与 web 主目录
@@ -95,6 +83,9 @@ Nginx 主配置文件：`~/docker/nginxphp72-alpine/nginx/nginx.conf`
 Nginx 站点配置文件：`~/docker/nginxphp72-alpine/nginx/sample.conf`
 
 Nginx 站点路径：`~/docker/nginxphp72-alpine/html/`
+
+> nginx 配置修改后可以通过 `docker exec web nginx -s reload` 或者 `docker restart web` 重启 nginx 或者容器来生效
+
 
 ## 与 Mysql 5.7 结合运行
 
