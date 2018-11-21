@@ -118,3 +118,5 @@ $ docker run -d \
 ```
 
 > PHP 中使用 db.mysql 来链接 mysql 容器，其它事项同 `从本机目录映射 nginx 配置文件与 web 主目录`
+
+可通过 http://127.0.0.1/hogedb.php 管理 mysql （类似于 phpmyadmin 的工具）
