@@ -40,7 +40,7 @@ http://127.0.0.1 or http://sample.com
 
 > 如果你要使用 http://sample.com 访问，请预先在本机 hosts 配 127.0.0.1 sample.com
 
-可通过修改下面文件中的相关配置进行域名变更（修改后需要重新构建）
+可通过修改下面文件中的相关配置进行域名变更（修改后需要重启 nginx 或者容器）
 
 ```
 nginx/sample.conf
