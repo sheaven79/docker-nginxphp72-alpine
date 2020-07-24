@@ -30,6 +30,7 @@ COPY supervisor/env.conf /etc/supervisor/conf.d/env.conf
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/sample.conf /etc/nginx/conf.d/default.conf
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 755 /usr/local/bin/entrypoint.sh
 
 # 复制项目代码
 RUN set -xe; \
