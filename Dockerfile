@@ -33,9 +33,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 755 /usr/local/bin/entrypoint.sh
 
 # 复制项目代码
-RUN set -xe; \
-    curl -o hogedb.php -fSL "http://op.hoge.cn/tools/hogedb.php" \
-    && curl -o adminer.css -fSL "http://op.hoge.cn/tools/adminer.css"
+COPY html/ /var/www/html/
 
 # 清理
 RUN set -xe \
