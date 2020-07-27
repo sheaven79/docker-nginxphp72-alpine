@@ -36,7 +36,7 @@ $ docker run -d -p 80:80 --name web nginxphp72:alpine
 
 ## 访问
 
-http://127.0.0.1 or http://sample.com
+http://127.0.0.1/phpinfo.php or http://sample.com/phpinfo.php
 
 > 如果你要使用 http://sample.com 访问，请预先在本机 hosts 配 127.0.0.1 sample.com
 
@@ -87,7 +87,7 @@ Nginx 站点路径：`~/docker/nginxphp72-alpine/html/`
 > nginx 配置修改后可以通过 `docker exec web nginx -s reload` 或者 `docker restart web` 重启 nginx 或者容器来生效
 
 
-## 与 Mysql 5.7 结合运行
+## 与 Mysql 5.7 、Redis 结合运行
 
 ### 先启动 mysql 容器
 
@@ -104,12 +104,24 @@ $ docker run -d \
 
 MySQL `root` 密码为 `mypassword`
 
+### 先启动 redis 容器
+
+```
+$ docker run -d \
+	--name redis \
+	-v redisdata:/data \
+	redis
+```
+
+> Redis 容器启动后默认 data 目录为 volume 卷，如需使用本机路径请自行修改 -v redisdata:/data
+
 ### 再启动 web 容器
 
 ```
 $ docker run -d \
 	--name web \
 	--link mysql:db.mysql \
+	--link redis:db.redis \
     -v ~/docker/nginxphp72-alpine/nginx/nginx.conf:/etc/nginx/nginx.conf \
 	-v ~/docker/nginxphp72-alpine/nginx/sample.conf:/etc/nginx/conf.d/default.conf \
 	-v ~/docker/nginxphp72-alpine/html:/var/www/html \
@@ -120,3 +132,5 @@ $ docker run -d \
 > PHP 中使用 db.mysql 来链接 mysql 容器，其它事项同 `从本机目录映射 nginx 配置文件与 web 主目录`
 
 可通过 http://127.0.0.1/hogedb.php 管理 mysql （类似于 phpmyadmin 的工具）
+
+redis 连接测试 http://127.0.0.1/redis.php
