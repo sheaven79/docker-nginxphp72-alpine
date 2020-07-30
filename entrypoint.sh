@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/ash
 set -eo pipefail
 
 [[ "${DEBUG}" == true ]] && set -x
