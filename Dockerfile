@@ -1,5 +1,5 @@
 FROM php:7.2-cli-alpine as build
-RUN sed -i "s/dl-cdn.alpinelinux.org/mirror.tuna.tsinghua.edu.cn/" /etc/apk/repositories
+RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories
 # PHP 扩展编译
 RUN set -xe \
     && apk add --no-cache freetype-dev libjpeg-turbo-dev libpng-dev libxml2-dev libwebp-dev gettext-dev argon2-dev \
@@ -12,13 +12,15 @@ LABEL MAINTAINER maowei <maowei@hoge.cn>
 
 RUN mkdir -p /var/www/html
 WORKDIR /var/www/html
-
-RUN sed -i "s/dl-cdn.alpinelinux.org/mirror.tuna.tsinghua.edu.cn/" /etc/apk/repositories
-
-# COPY build 阶段编译的php扩展
-COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ /usr/local/lib/php/extensions/no-debug-non-zts-20170718/
+# 替换国内系统镜像源
+RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories
+# 安装依赖包
 RUN set -xe \
-    && apk add --no-cache freetype libjpeg-turbo libpng libxml2 libwebp gettext argon2 \
+    && apk add --no-cache freetype libjpeg-turbo libpng libxml2 libwebp gettext argon2
+# COPY build 阶段编译的 PHP 扩展
+COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ /usr/local/lib/php/extensions/no-debug-non-zts-20170718/
+#启用 PHP 扩展
+RUN set -xe \
     && docker-php-ext-enable gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm
 
 # 安装 composer
