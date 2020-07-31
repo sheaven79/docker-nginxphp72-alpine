@@ -110,7 +110,7 @@ MySQL `root` 密码为 `mypassword`
 $ docker run -d \
 	--name redis \
 	-v redisdata:/data \
-	redis
+	redis --requirepass "password"
 ```
 
 > Redis 容器启动后默认 data 目录为 volume 卷，如需使用本机路径请自行修改 -v redisdata:/data
