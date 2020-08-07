@@ -7,7 +7,8 @@ RUN set -xe \
     && docker-php-ext-install gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl\
     && apk add --no-cache autoconf ${PHPIZE_DEPS}
 RUN set -xe \
-    && pecl install https://op.hoge.cn/src/phpext/redis-5.3.1.tgz
+    && pecl install https://op.hoge.cn/src/phpext/redis-5.3.1.tgz \
+    && pecl install https://op.hoge.cn/src/phpext/mongodb-1.8.0.tgz
 
 FROM php:7.2-fpm-alpine
 
@@ -24,7 +25,7 @@ RUN set -xe \
 COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ /usr/local/lib/php/extensions/no-debug-non-zts-20170718/
 #启用 PHP 扩展
 RUN set -xe \
-    && docker-php-ext-enable gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl opcache redis
+    && docker-php-ext-enable gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl opcache redis mongodb
 
 # 安装 composer
 RUN set -xe \
