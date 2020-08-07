@@ -7,7 +7,7 @@ RUN set -xe \
     && docker-php-ext-install gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl\
     && apk add --no-cache autoconf ${PHPIZE_DEPS}
 RUN set -xe \
-    && pecl install redis
+    && pecl install https://op.hoge.cn/src/phpext/redis-5.3.1.tgz
 
 FROM php:7.2-fpm-alpine
 
