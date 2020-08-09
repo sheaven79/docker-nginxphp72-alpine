@@ -8,7 +8,8 @@ RUN set -xe \
     && apk add --no-cache autoconf ${PHPIZE_DEPS}
 RUN set -xe \
     && pecl install https://op.hoge.cn/src/phpext/redis-5.3.1.tgz \
-    && pecl install https://op.hoge.cn/src/phpext/mongodb-1.8.0.tgz
+    && pecl install https://op.hoge.cn/src/phpext/mongodb-1.8.0.tgz \
+    && pecl install https://op.hoge.cn/src/phpext/swoole-4.5.2.tgz
 
 FROM php:7.2-fpm-alpine
 
