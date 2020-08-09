@@ -26,7 +26,7 @@ RUN set -xe \
 COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ /usr/local/lib/php/extensions/no-debug-non-zts-20170718/
 #启用 PHP 扩展
 RUN set -xe \
-    && docker-php-ext-enable gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl opcache redis mongodb
+    && docker-php-ext-enable gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl opcache redis mongodb swoole
 
 # 安装 composer
 RUN set -xe \
