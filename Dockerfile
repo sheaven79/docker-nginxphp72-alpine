@@ -21,10 +21,11 @@ WORKDIR /var/www/html
 RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories
 # 安装依赖包
 RUN set -xe \
-    && apk add --no-cache freetype libjpeg-turbo libpng libxml2 libwebp gettext argon2 libxml2 libxslt
+    && apk add --no-cache freetype libjpeg-turbo libpng libxml2 libwebp gettext argon2 libxml2 libxslt libstdc++
 # COPY build 阶段编译的 PHP 扩展
 COPY --from=build /usr/local/lib/php/extensions/no-debug-non-zts-20170718/ /usr/local/lib/php/extensions/no-debug-non-zts-20170718/
-#启用 PHP 扩展
+COPY --from=build /usr/local/include/php/ext/swoole/ /usr/local/include/php/ext/swoole/
+# 启用 PHP 扩展
 RUN set -xe \
     && docker-php-ext-enable gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl opcache redis mongodb swoole
 
