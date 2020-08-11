@@ -6,11 +6,11 @@ Docker Engine release 17.04.0+
 
 ```
 基于 php:7.2-fpm-alpine 基础镜像
-PHP 7.2 latest 版，除基本拓展外还增加了 gd zip pdo pdo_mysql 拓展
-Nginx 1.14.1，docker build 时 alpine linux apk 安装的最新版
-Redis 4.0.11，同上
-Composer，已替换国内镜像
-其它：supervisor git bash openssh-client
+PHP 7.2.32，包括扩展：gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl
+			Pecl 扩展：redis-5.3.1 mongodb-1.8.0 swoole-4.5.2 xlswriter-1.3.6
+			Composer，已替换国内镜像
+Nginx 1.18.0
+supervisor 4.2.0
 ```
 
 ## 项目克隆
@@ -57,14 +57,14 @@ nginx/sample.conf
 
 ## 清理
 
->!!!注意以下操作会清理全部 Docker 容器数据，并且无法恢复!!!
+>!!! 注意以下操作会清理全部 Docker 容器数据，并且无法恢复!!!
 
 * 删除容器：`docker rm -f web`
 
 * 删除 build 的镜像：`docker rmi nginxphp72:alpine`
 
 # 高级运行方法
-## 从本机目录映射 nginx 配置文件与 web 主目录
+## 从本机目录映射 nginx 配置文件与 web 主目录
 
 ```
 $ cd ~/docker
@@ -76,7 +76,7 @@ $ docker run -d \
 	-p 80:80 \
     nginxphp72:alpine
 ```
-> 上述方法运行后只需修改本机对应路径的文件就能实现同步更新容器内对应的文件
+> 上述方法运行后只需修改本机对应路径的文件就能实现同步更新容器内对应的文件
 
 Nginx 主配置文件：`~/docker/nginxphp72-alpine/nginx/nginx.conf`
 
@@ -110,7 +110,7 @@ MySQL `root` 密码为 `mypassword`
 $ docker run -d \
 	--name redis \
 	-v redisdata:/data \
-	redis --requirepass "password"
+	redis:5 --requirepass "password" --appendonly yes
 ```
 
 > Redis 容器启动后默认 data 目录为 volume 卷，如需使用本机路径请自行修改 -v redisdata:/data
@@ -129,7 +129,7 @@ $ docker run -d \
     nginxphp72:alpine
 ```
 
-> PHP 中使用 db.mysql 来链接 mysql 容器，其它事项同 `从本机目录映射 nginx 配置文件与 web 主目录`
+> PHP 中使用 db.mysql 来链接 mysql 容器，其它事项同 `从本机目录映射 nginx 配置文件与 web 主目录`
 
 可通过 http://127.0.0.1/hogedb.php 管理 mysql （类似于 phpmyadmin 的工具）
 

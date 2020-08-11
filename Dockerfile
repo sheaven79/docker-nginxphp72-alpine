@@ -1,3 +1,4 @@
+# 预编译PHP扩展阶段
 FROM php:7.2-fpm-alpine as build
 RUN sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" /etc/apk/repositories
 # PHP 扩展编译
@@ -12,8 +13,8 @@ RUN set -xe \
     && pecl install https://op.hoge.cn/src/phpext/swoole-4.5.2.tgz \
     && pecl install https://op.hoge.cn/src/phpext/xlswriter-1.3.6.tgz
 
+# 正式阶段
 FROM php:7.2-fpm-alpine
-
 LABEL MAINTAINER maowei <maowei@hoge.cn>
 
 RUN mkdir -p /var/www/html
@@ -40,7 +41,7 @@ RUN set -xe \
 
 # 安装项目依赖
 RUN set -xe \
-    && apk add --no-cache nginx redis supervisor \
+    && apk add --no-cache nginx supervisor \
     && mkdir -p /etc/supervisor/conf.d
 COPY supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY supervisor/env.conf /etc/supervisor/conf.d/env.conf
