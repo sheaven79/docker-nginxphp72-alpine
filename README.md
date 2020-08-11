@@ -18,7 +18,7 @@ supervisor 4.2.0
 ```
 $ mkdir ~/docker
 $ cd ~/docker
-$ git clone git@git.hoge.cn:dockerfile/nginxphp72-alpine.git
+$ git clone git@github.com:sheaven79/docker-nginxphp72-alpine.git
 ```
 
 ## 构建
