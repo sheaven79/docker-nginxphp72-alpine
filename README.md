@@ -6,9 +6,9 @@ Docker Engine release 17.04.0+
 
 ```
 基于 php:7.2-fpm-alpine 基础镜像
-PHP 7.2.32，包括扩展：gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl
-			Pecl 扩展：redis-5.3.1 mongodb-1.8.0 swoole-4.5.2 xlswriter-1.3.6
-			Composer，已替换国内镜像
+PHP 7.2.33，包括扩展：gd zip bcmath pdo_mysql calendar exif gettext mysqli pcntl shmop sockets sysvmsg sysvsem sysvshm wddx xsl
+	Pecl 扩展：redis-5.3.1 mongodb-1.8.0 swoole-4.5.2 xlswriter-1.3.6 xhprof-2.2.0 imagick-3.4.4 
+	Composer，已替换国内镜像
 Nginx 1.18.0
 supervisor 4.2.0
 ```
@@ -134,3 +134,19 @@ $ docker run -d \
 可通过 http://127.0.0.1/hogedb.php 管理 mysql （类似于 phpmyadmin 的工具）
 
 redis 连接测试 http://127.0.0.1/redis.php
+
+### 自定义 php-fpm 和 php.ini 配置
+```
+$ docker run -d \
+	--name web \
+	--link mysql:db.mysql \
+	--link redis:db.redis \
+    -v ~/docker/nginxphp72-alpine/nginx/nginx.conf:/etc/nginx/nginx.conf \
+	-v ~/docker/nginxphp72-alpine/nginx/sample.conf:/etc/nginx/conf.d/default.conf \
+	-v ~/docker/nginxphp72-alpine/php/php-fpm.d:/usr/local/etc/php-fpm.d \
+    -v ~/docker/nginxphp72-alpine/php/php.ini:/usr/local/etc/php/php.ini \
+	-v ~/docker/nginxphp72-alpine/html:/var/www/html \
+	-p 80:80 \
+    nginxphp72:alpine
+```
+> nginx 默认站点配置文件 sample.conf 中默认使用 unix socket 方式转发请求到 php-fpm，如变更php-fpm监听方式注意同步修改
